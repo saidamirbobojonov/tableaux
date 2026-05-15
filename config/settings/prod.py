@@ -3,7 +3,8 @@ from .base import *
 # 1. GENERAL
 # ------------------------------------------------------------------------------
 DEBUG = False
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["your-domain.com"])
+# Accepts a comma-separated list in env var, e.g. "foo.up.railway.app,localhost"
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*"])
 
 # 2. SECURITY HEADERS (Milestone 0 requirement)
 # ------------------------------------------------------------------------------
