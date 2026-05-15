@@ -31,18 +31,21 @@ USE_TZ = True
 
 # 4. DATABASES
 # ------------------------------------------------------------------------------
-# Парсит DATABASE_URL, например: postgres://user:pass@host:5432/dbname
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST", default="127.0.0.1"),
-        "PORT": env("DB_PORT", default="5432"),
+# Supports Railway's DATABASE_URL or individual DB_* vars for local docker-compose
+_database_url = env("DATABASE_URL", default=None)
+if _database_url:
+    DATABASES = {"default": env.db_url("DATABASE_URL")}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("DB_NAME"),
+            "USER": env("DB_USER"),
+            "PASSWORD": env("DB_PASSWORD"),
+            "HOST": env("DB_HOST", default="127.0.0.1"),
+            "PORT": env("DB_PORT", default="5432"),
+        }
     }
-}
-# Важно для финансовой целостности: оборачивает каждый запрос в транзакцию
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # 5. URLS & WSGI
@@ -203,8 +206,10 @@ LOGGING = {
 
 # 13. CELERY (Async Tasks)
 # ------------------------------------------------------------------------------
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://redis:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://redis:6379/1")
+# Supports Railway's REDIS_URL or explicit CELERY_BROKER_URL for local docker-compose
+_redis_url = env("REDIS_URL", default=None)
+CELERY_BROKER_URL = _redis_url or os.environ.get("CELERY_BROKER_URL", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = _redis_url or os.environ.get("CELERY_RESULT_BACKEND", "redis://redis:6379/1")
 CELERY_TIMEZONE = "Asia/Dushanbe"
 
 # 14. TELEGRAM NOTIFICATIONS

@@ -1,6 +1,7 @@
 # --- Python ---
 .env
 .env.*
+!.env.example
 *.pyc
 *.pyo
 __pycache__/
