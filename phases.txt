@@ -1,0 +1,125 @@
+lets ================================================================================
+  RESTAURANT PLATFORM — DEVELOPMENT ROADMAP
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PHASE 0 — CRITICAL BUG FIXES  (before any frontend can work)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [BUG 1] OrderItem.selected_modifiers field missing
+    - File: apps/orders/models.py
+    - Serializer calls .set(modifiers) on a field that does not exist in the DB.
+    - Creating any order with modifiers currently raises an AttributeError / 500.
+    - Fix: Add ManyToManyField to Modifier + create migration 0003.
+
+  [BUG 2] Analytics get_top_items() ignores date_to
+    - File: apps/analytics/services.py
+    - get_top_items() applies date_from filter but never applies date_to.
+    - Owner sees wrong data when filtering by date range.
+    - Fix: Add missing qs.filter(created_at__date__lte=self.date_to) block.
+
+  [BUG 3] Inventory app has no URL endpoints
+    - App has complete models (Ingredient, Supplier, StockBalance, PurchaseOrder)
+      but zero API endpoints are exposed.
+    - Staff cannot add ingredients, view stock levels, or create purchase orders.
+    - Fix: Create serializers.py + views.py + urls.py for inventory app,
+      register under /api/v1/inventory/ in config/urls.py.
+
+  [BUG 4] RBAC not enforced in any view
+    - All views only check IsAuthenticated — any logged-in user can hit any endpoint.
+    - A WAITER can view owner analytics. A CHEF can close shifts.
+    - Fix: Create apps/users/permissions.py with role-based DRF permission classes,
+      apply correct permissions to analytics, kitchen, shifts, and orders views.
+
+  [BUG 5] Kitchen app not registered in config/urls.py
+    - apps/kitchen/urls.py exists but is never included in the main router.
+    - /api/v1/kitchen/ returns 404 for all requests.
+    - Fix: Add path("api/v1/kitchen/", include("apps.kitchen.urls")) to config/urls.py.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PHASE 1 — FRONTEND INTEGRATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Goal: Connect a Web or Mobile frontend to this API.
+
+  [ ] Configure django-cors-headers properly (whitelist frontend origin, not *)
+  [ ] Verify JWT login flow end-to-end (access token + refresh token rotation)
+  [ ] Add missing management endpoints:
+        - Catalog CRUD (create/edit/delete menu items, categories, modifiers)
+        - Branch management (update hours, logo, contact info)
+        - User management (invite staff, assign roles via Membership)
+  [ ] Scope order list to branch via user Membership (waiter sees only his branch)
+  [ ] Add pagination config to all list views (currently unbounded)
+  [ ] Return selected_modifiers detail in OrderManageSerializer (name + price)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PHASE 2 — REAL-TIME KDS (WebSockets)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Goal: Chef's tablet gets new orders instantly without polling.
+
+  [ ] Install django-channels + daphne, replace gunicorn in Dockerfile
+  [ ] Add CHANNEL_LAYERS config (Redis backend)
+  [ ] Create WebSocket consumer: KDSConsumer (connects to room = branch_id)
+  [ ] On order creation/status change — push event to channel group
+  [ ] Update docker-compose to run daphne instead of gunicorn for ASGI
+  [ ] Add JWT authentication for WebSocket handshake
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PHASE 3 — RECEIPT PRINTING (ESC/POS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Goal: Auto-print receipts after payment.
+
+  [ ] Install python-escpos library
+  [ ] Create Celery task: print_receipt(order_id)
+      - Triggered on_commit when order status becomes PAID
+      - Connects to printer via USB or LAN (configurable in .env)
+  [ ] Build receipt template:
+      - Header: branch name, address, date/time
+      - Body: items, variants, modifiers, quantities, prices
+      - Footer: total, payment method, shift ID, QR code (optional)
+  [ ] Build kitchen ticket template (separate, simpler — for chef):
+      - Order number, table, items + notes only (no prices)
+  [ ] Store printer config per branch (IP/USB path in Branch model or .env)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PHASE 4 — ONLINE PAYMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Goal: Customers pay from phone via QR code on table.
+
+  [ ] Choose payment gateway (Alif Mobi / Corti Milli for TJS, or Stripe)
+  [ ] Create POST /api/v1/orders/<id>/pay/ endpoint
+      - Initiates payment session with gateway
+      - Returns redirect URL or QR payload for customer
+  [ ] Implement Webhook endpoint POST /api/v1/payments/webhook/
+      - Verifies gateway signature
+      - On successful payment: sets order.status = PAID, order.payment_method = QR_ONLINE
+      - Triggers Telegram notification + print_receipt Celery task
+  [ ] Add idempotency: store gateway transaction ID on order to prevent double-charge
+  [ ] Test with sandbox credentials before going live
+
+================================================================================
+  COMPLETED
+================================================================================
+  [x] Multi-tenant architecture (Organization -> Branch -> Membership)
+  [x] Custom User model (email-based, no username)
+  [x] JWT authentication (SimpleJWT, 60min access / 7-day refresh with rotation)
+  [x] Full catalog: categories, menu items, variants, modifiers, allergens
+  [x] Branch-specific price overrides (BranchMenuItem)
+  [x] Recipe / BOM system (RecipeItem linking ingredients to menu items)
+  [x] Order lifecycle: PENDING -> PAID -> PREPARING -> READY -> COMPLETED
+  [x] Auto inventory deduction on order completion (complete_order())
+  [x] Moving average cost calculation on purchase order receipt
+  [x] Stock movements audit trail (StockMovement)
+  [x] Kitchen Display System views (board + status transitions)
+  [x] Shift management (open/close with cash reconciliation)
+  [x] Analytics dashboard (revenue, orders count, avg ticket, top-5 items)
+  [x] Async Telegram notifications via Celery
+  [x] QR code tokens for table/pickup identification
+  [x] Soft delete + AuditLog on all critical models
+  [x] Swagger / ReDoc API documentation (drf-spectacular)
+  [x] Full Docker stack (web + db + nginx + redis + worker)
+  [x] Automated DB backups (cron + pg_dump)
+================================================================================

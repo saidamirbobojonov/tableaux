@@ -1,0 +1,46 @@
+# --- Core Framework ---
+Django>=5.0,<5.1                # Последняя стабильная версия
+django-environ>=0.11.2          # Чтение настроек из .env
+
+# --- API & Serialization ---
+djangorestframework>=3.14.0     # Основной фреймворк API
+djangorestframework-simplejwt>=5.3.1  # Auth: JWT (Milestone 1)
+django-filter>=23.5             # Удобная фильтрация запросов (?price_min=100)
+django-cors-headers>=4.3.1      # CORS (для фронтенда)
+Markdown>=3.5.2                 # Нужен для Browsable API интерфейса
+
+# --- Async & Caching (Milestone 8 & 10) ---
+celery>=5.3.6                   # Асинхронные задачи (отчеты, email)
+redis>=5.0.1                    # Клиент Redis (для кэша и Celery)
+requests>=2.31.0                # HTTP клиент (Telegram уведомления)
+
+# --- Media & Files ---
+Pillow>=10.2.0                  # Обработка изображений (меню, аватары)
+
+# --- Production Server & Utils ---
+gunicorn>=21.2.0                # WSGI HTTP Server
+whitenoise>=6.6.0               # Раздача статики (CSS/JS) прямо из Python (упрощает Docker)
+
+# --- Observability (Milestone 0 & 8) ---
+sentry-sdk>=1.39.2              # Отлов ошибок и мониторинг
+python-json-logger>=2.0.7       # JSON-логи для ELK/Datadog
+
+# --- Development & Code Quality (Milestone 0) ---
+# Эти библиотеки нужны для локальной разработки и CI/CD
+ruff>=0.1.14                    # Очень быстрый линтер (заменяет flake8)
+black>=24.1.0                   # Форматтер кода
+isort>=5.13.2                   # Сортировка импортов
+mypy>=1.8.0                     # Статическая типизация
+django-stubs>=4.2.7             # Типы для Django (чтобы mypy не ругался)
+djangorestframework-stubs>=3.14.5 # Типы для DRF
+pre-commit>=3.6.0               # Хуки перед коммитом
+
+# --- Debugging (Dev only) ---
+django-debug-toolbar>=4.2.0     # Панель отладки SQL запросов
+celery==5.3.6
+redis==5.0.1
+
+psycopg2-binary==2.9.9
+PyJWT==2.10.1
+drf-spectacular==0.29.0
+qrcode==8.2

@@ -1,0 +1,36 @@
+# --- Python ---
+.env
+.env.*
+*.pyc
+*.pyo
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# --- Django ---
+db.sqlite3
+media/
+staticfiles/
+
+# --- Virtual environment ---
+venv/
+.venv/
+env/
+
+# --- Database backups ---
+db_backups/
+
+# --- Editor & OS ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- Claude Code ---
+.claude/
+
+# --- Logs ---
+*.log
+celery*.log

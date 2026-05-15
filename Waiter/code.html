@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Olive Hearth - Order Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#a7a66c",
+                        "secondary-fixed": "#e6e4c5",
+                        "on-error-container": "#93000a",
+                        "on-background": "#151513",
+                        "secondary-fixed-dim": "#cac8aa",
+                        "on-secondary": "#ffffff",
+                        "surface": "#fcfcfb",
+                        "on-tertiary-container": "#453155",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#1d1c0a",
+                        "tertiary-fixed-dim": "#d7bde9",
+                        "on-secondary-fixed-variant": "#484831",
+                        "surface-bright": "#fcfcfb",
+                        "inverse-on-surface": "#f4f0e9",
+                        "background": "#fcfcfb",
+                        "surface-container": "#f1ede6",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#151513",
+                        "inverse-primary": "#cbca8c",
+                        "surface-variant": "#e6e2db",
+                        "surface-dim": "#dddad2",
+                        "outline": "#e8e8e5",
+                        "on-primary-container": "#ffffff",
+                        "surface-container-low": "#f3f3f2",
+                        "secondary": "#333333",
+                        "on-tertiary-fixed-variant": "#533f63",
+                        "tertiary": "#ea580c",
+                        "primary-fixed-dim": "#cbca8c",
+                        "primary-container": "#a7a66c",
+                        "surface-container-high": "#e8e8e5",
+                        "primary": "#a7a66c",
+                        "outline-variant": "#cac7b7",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e6e2db",
+                        "on-secondary-container": "#66664d",
+                        "on-primary-fixed": "#1d1d00",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#e7e6a6",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#494919",
+                        "tertiary-fixed": "#f2daff",
+                        "secondary-container": "#e6e4c5",
+                        "inverse-surface": "#31302c",
+                        "tertiary-container": "#ffdad6",
+                        "on-tertiary-fixed": "#261335",
+                        "on-surface-variant": "#7b7b6f",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Work Sans"],
+                        "body": ["Work Sans"],
+                        "label": ["Work Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Work Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-[#fcfcfb]/80 dark:bg-stone-950/80 backdrop-blur-md border-b border-[#e8e8e5] dark:border-stone-800">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-low hover:bg-[#f3f3f2] transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined text-[#a7a66c]" data-icon="grid_view">grid_view</span>
+</button>
+<h1 class="font-['Work_Sans'] font-bold tracking-tight uppercase text-sm text-[#333333] dark:text-stone-100">TABLE 14</h1>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[10px] font-bold tracking-widest uppercase text-[#7b7b6f]">Server Profile</span>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden border border-outline">
+<img alt="Server Profile" class="w-full h-full object-cover" data-alt="minimalist illustrated avatar of a professional male waiter in a clean uniform on a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcDboPyAS3CiNo6xflfAMLiCBTM1_h_X_NjF1pxioVXtMMtRadvkxofCoU0u3Jc1WX-sTbYqUHvhGqnuSGx0PiCRiA8oxR1CAqgKASbeSHI2B6PUFNb83jdduRTW_A-45g4uP5XG0LguklTN_PfpxCnAqjU9gpPP1NzSpCk4vBImIZ_jlYdGFlUeNX-rVQjaw1SAmbizGyq2_uZJC7xwRu-s39It8oaTZ8fwDX8ehNMS4bcvnvbzywVkDiuKNLOgVPB5stwdKaI1M"/>
+</div>
+</div>
+</header>
+<main class="pt-20 pb-32 px-6 flex flex-col md:flex-row gap-8 max-w-7xl mx-auto h-screen">
+<!-- Menu Section -->
+<div class="flex-1 flex flex-col gap-6 overflow-hidden">
+<!-- Categories -->
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-2">
+<button class="px-6 py-2 rounded-xl bg-primary text-on-primary font-bold text-[10px] tracking-widest uppercase flex-shrink-0 transition-transform active:scale-95">APPETIZERS</button>
+<button class="px-6 py-2 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-[10px] tracking-widest uppercase flex-shrink-0 hover:bg-[#f3f3f2] transition-all active:scale-95">MAINS</button>
+<button class="px-6 py-2 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-[10px] tracking-widest uppercase flex-shrink-0 hover:bg-[#f3f3f2] transition-all active:scale-95">DRINKS</button>
+<button class="px-6 py-2 rounded-xl bg-surface-container-low text-on-surface-variant font-bold text-[10px] tracking-widest uppercase flex-shrink-0 hover:bg-[#f3f3f2] transition-all active:scale-95">DESSERTS</button>
+</div>
+<!-- Menu Grid -->
+<div class="flex-1 overflow-y-auto hide-scrollbar pr-2">
+<div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Item 1 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-primary/20">
+<div class="h-40 w-full bg-surface-container">
+<img alt="Heirloom Carrots" class="w-full h-full object-cover" data-alt="artistic overhead shot of roasted heirloom carrots with herb oil and whipped feta on a ceramic plate, soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB94-kyVu968oADjliYYYKrvDVuNFuuVKnMLEKudDB5IJhKdVO49Ow6RxBo1f1ithF3KlVYTDZCKioTexblcgqZfix3RDcWmErKaonurWQ0pkiIWQQUXqZwFZnp_ZxE8o-SPzYAK425bWg-zPLNdfC-tW2N5uHjEhC-FsC9HpVCF5Jq3lKbu3AbmwFWpDk0LGIMFXDeYqfLk6L7A03AEr4-MpCfLBkf-S7YRja2DCewWJefuNgcRMlvW3chNA7m2iTgeebkMvH8AOw"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface leading-tight">Heirloom Carrots</h3>
+<span class="text-primary font-bold text-xs">$14</span>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-relaxed mb-3">Whipped feta, spiced honey, toasted seeds.</p>
+<button class="w-full py-2 bg-surface-container-low text-[#333333] font-bold text-[10px] tracking-widest uppercase rounded-lg hover:bg-primary hover:text-white transition-colors">ADD TO ORDER</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-primary/20">
+<div class="h-40 w-full bg-surface-container">
+<img alt="Truffle Polenta" class="w-full h-full object-cover" data-alt="close-up of creamy polenta topped with shaved black truffles and a swirl of olive oil in a dark bowl, dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgNauAugo24ufdyirpS94qeIfXsAVTvP3bV-Lrl2Ql0qsx3e15zKY4JF9BhKqX3qeTrVXzSTzj1gW2DAxiNYHG3ElPcK6ELlIyDuSF_ZjQAxkC9A5qaMzewAQzCOCjnTVdG_mrVmpU0kldwqXmOkEyDNFPuem5NJxgPOqXXdb9KMi1YNrzlUkSxGiWb-I53zwcHc6LdCJLABJ5XQh2NC-lSeUsD-Z2r-XG4KITvR5JExuuqG6ZFlGgsvBZe11HAZf2e29jtPpcdLo"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface leading-tight">Truffle Polenta</h3>
+<span class="text-primary font-bold text-xs">$18</span>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-relaxed mb-3">Wild mushrooms, parmesan crisp, thyme leaf.</p>
+<button class="w-full py-2 bg-surface-container-low text-[#333333] font-bold text-[10px] tracking-widest uppercase rounded-lg hover:bg-primary hover:text-white transition-colors">ADD TO ORDER</button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-primary/20">
+<div class="h-40 w-full bg-surface-container">
+<img alt="Arancini" class="w-full h-full object-cover" data-alt="three golden-brown crispy arancini balls on a bed of bright red marinara sauce, garnished with fresh basil leaves" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbmEDsrdhuzTBSfp4Bhc0fMTKXX2yV_WeaqdaJttgPkfP0IHkLGDlT4VipOQWgaloB9ybY0MXa1qOCSlYojNmegjpf_eZvtB3-CPfdx37hDkTXBHS1NGMg0QB9EFMPVWoAyDcveeCrlaHvF16BWhjPue6BpNx_At7-ZCb0pjHeWg6m06hnoWuX3o8-Y9zHs5jOAKuBegLWrdOrvZH3ENCbhrxdZWnnKNFa0k2p90VA4IAiUZwcNFCqMZR_7sw4stDfhdjmfNW0k1s"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface leading-tight">Crispy Arancini</h3>
+<span class="text-primary font-bold text-xs">$16</span>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-relaxed mb-3">Saffron rice, mozzarella core, tomato jam.</p>
+<button class="w-full py-2 bg-surface-container-low text-[#333333] font-bold text-[10px] tracking-widest uppercase rounded-lg hover:bg-primary hover:text-white transition-colors">ADD TO ORDER</button>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-transparent hover:border-primary/20">
+<div class="h-40 w-full bg-surface-container">
+<img alt="Harvest Salad" class="w-full h-full object-cover" data-alt="vibrant salad bowl with kale, pomegranate seeds, roasted squash and citrus dressing, bright natural sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm_hUnO-B6ZfJa6iwTLPywiuQ5jjhOeAy68aaHWjOaWbfyctpb2qUepKomJ_nyPbtZlxZ7656YCcw_k2NmykxRxfVofLCrTr5c0oKeBhHa9gYsRKBnqWlE-AYbp3hCU8g-9_0JFEfQnp2rsWqqNWrX53VE4quXunASByCfkjZNMtSZNaGbGcoiyApgwdD1VvLlm-rTYMBNI1mqF5WN6LbG6UPvEHLPcF9zaAiQ03jKUmpDz5IOBxb1jFcjYDTFlALuVLZuoI05PVI"/>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-on-surface leading-tight">Harvest Salad</h3>
+<span class="text-primary font-bold text-xs">$15</span>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-relaxed mb-3">Local greens, cider vin, goat cheese snow.</p>
+<button class="w-full py-2 bg-surface-container-low text-[#333333] font-bold text-[10px] tracking-widest uppercase rounded-lg hover:bg-primary hover:text-white transition-colors">ADD TO ORDER</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Mini-Cart / Order Summary -->
+<aside class="w-full md:w-80 flex flex-col bg-surface-container-lowest rounded-xl border border-outline shadow-sm overflow-hidden">
+<div class="p-5 border-b border-outline bg-surface-container-low">
+<h2 class="font-bold text-sm text-secondary tracking-tight">ORDER SUMMARY</h2>
+<span class="text-[10px] text-on-surface-variant tracking-widest uppercase">3 ITEMS ADDED</span>
+</div>
+<div class="flex-1 overflow-y-auto p-5 space-y-6">
+<!-- Order Item -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center justify-center w-8 py-2 bg-surface-container-low rounded-lg">
+<span class="text-xs font-black text-secondary">2</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<h4 class="text-xs font-bold text-secondary">Heirloom Carrots</h4>
+<span class="text-xs text-on-surface-variant">$28</span>
+</div>
+<p class="text-[10px] italic text-primary uppercase mt-1">NO ONIONS</p>
+</div>
+<button class="text-on-surface-variant/40 hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+<!-- Order Item -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center justify-center w-8 py-2 bg-surface-container-low rounded-lg">
+<span class="text-xs font-black text-secondary">1</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<h4 class="text-xs font-bold text-secondary">Truffle Polenta</h4>
+<span class="text-xs text-on-surface-variant">$18</span>
+</div>
+<p class="text-[10px] italic text-primary uppercase mt-1">EXTRA PARMESAN</p>
+</div>
+<button class="text-on-surface-variant/40 hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Footer / Action -->
+<div class="p-5 bg-surface-container-low border-t border-outline">
+<div class="flex justify-between items-end mb-4">
+<span class="text-[10px] font-bold tracking-widest uppercase text-on-surface-variant">SUBTOTAL</span>
+<span class="text-xl font-black text-secondary">$46.00</span>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold tracking-widest uppercase text-sm shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all">
+                    SEND TO KITCHEN
+                </button>
+</div>
+</aside>
+</main>
+<!-- BottomNavBar (Mobile only focus) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-4 bg-[#fcfcfb] border-t border-[#e8e8e5] shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+<div class="flex flex-col items-center justify-center text-[#a7a66c] scale-110 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="menu_book">menu_book</span>
+<span class="text-[10px] font-bold tracking-widest uppercase font-['Work_Sans']">MENU</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#333333]/40">
+<span class="material-symbols-outlined mb-1" data-icon="receipt_long">receipt_long</span>
+<span class="text-[10px] font-bold tracking-widest uppercase font-['Work_Sans']">ORDERS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#333333]/40">
+<span class="material-symbols-outlined mb-1" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="text-[10px] font-bold tracking-widest uppercase font-['Work_Sans']">TABLES</span>
+</div>
+</nav>
+</body></html>

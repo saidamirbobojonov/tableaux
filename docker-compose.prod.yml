@@ -1,0 +1,60 @@
+services:
+  # --- 1. Web App (Gunicorn) ---
+  web:
+    build: .
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 4
+    volumes:
+      - static_volume:/app/staticfiles  # Отдаем статику Nginx'у
+      - media_volume:/app/media         # Отдаем медиа Nginx'у
+    expose:
+      - 8000                            # Порт открыт только для Nginx, не наружу
+    env_file:
+      - .env                            # Читаем секреты из файла (создадим позже)
+    depends_on:
+      - db
+
+  # --- 2. Database ---
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    restart: always
+
+  # --- 3. Nginx (Швейцар) ---
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/app/staticfiles  # Читаем статику от Django
+      - media_volume:/app/media         # Читаем медиа от Django
+    ports:
+      - "80:80"                         # Единственный порт, торчащий в интернет
+    depends_on:
+      - web
+
+# 4. Redis (Брокер сообщений)
+  redis:
+    image: redis:7-alpine
+    restart: always
+
+  # 5. Celery Worker (Исполнитель задач)
+  worker:
+    build: .
+    # Команда запуска Celery
+    command: celery -A config worker --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+volumes:
+  postgres_data_prod:
+  static_volume:
+  media_volume:
